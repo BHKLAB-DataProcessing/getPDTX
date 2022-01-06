@@ -19,9 +19,9 @@ options(stringsAsFactors=FALSE)
 print("Retrieving selection")
 args = commandArgs(trailingOnly=TRUE)
 
-processedDataGithubPrefix <- "/pfs/downloadBreatPDTXData/"
-sensitivityDataPrefix <- "/pfs/normalizeAndComputePDTXSens/"
-annotationRepoPrefix <- '/pfs/downAnnotations/'
+processedDataGithubPrefix <- "/pfs/downloadBreatPDTXData"
+sensitivityDataPrefix <- "/pfs/normalizeAndComputePDTXSens"
+annotationRepoPrefix <- '/pfs/downAnnotations'
 
 # processedDataGithubPrefix <- "~/Documents/pfs/downloadBreatPDTXData/"
 # sensitivityDataPrefix <- "~/Documents/pfs/normalizeAndComputePDTXSens/"
