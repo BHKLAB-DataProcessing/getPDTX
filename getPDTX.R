@@ -19,7 +19,7 @@ options(stringsAsFactors=FALSE)
 print("Retrieving selection")
 args = commandArgs(trailingOnly=TRUE)
 
-processedDataGithubPrefix <- "/pfs/downloadBreatPDTXData"
+processedDataGithubPrefix <- "/pfs/downloadPDTXBreastData"
 sensitivityDataPrefix <- "/pfs/normalizeAndComputePDTXSens"
 annotationRepoPrefix <- '/pfs/downAnnotations'
 
