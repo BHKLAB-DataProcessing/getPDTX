@@ -5,7 +5,6 @@ library(Biobase)
 library(reshape2)
 library(dplyr)
 library(data.table)
-library(reshape2)
 library(CoreGx)
 library(SummarizedExperiment)
 
@@ -16,17 +15,11 @@ library(biocompute)
 
 options(stringsAsFactors=FALSE)
 print("Retrieving selection")
-
-myDirPrefix <- "/pfs"
 args = commandArgs(trailingOnly=TRUE)
 
-
-processedDataGithubPrefix <- "~/Code/Github/BreastPDTX"
-sensitivityDataPrefix <- "~/Data/PDTX"
-
-annotationRepoPrefix <- '~/Code/Github/pachyderm/Annotations/'
-
-
+processedDataGithubPrefix <- "~/Documents/pfs/downloadBreatPDTXData/"
+sensitivityDataPrefix <- "~/Documents/pfs/normalizeAndComputePDTXSens/"
+annotationRepoPrefix <- '~/Documents/pfs/annotation/'
 
 # rnaseq_select <- args
 # print(rnaseq_select)
@@ -244,8 +237,8 @@ matchToIDTable <- function(ids,tbl, column, returnColumn="unique.cellid") {
 drug.annotation.all <- read.csv(file.path(annotationRepoPrefix,"drugs_with_ids.csv"))
 
 
-cell <- read.csv(file.path(processedDataGithubPrefix,"data/cell.csv"), header=TRUE)
-drug <- read.csv(file.path(processedDataGithubPrefix,"data/raw_drug.csv"), header=TRUE)
+cell <- read.csv(file.path(processedDataGithubPrefix,"cell.csv"), header=TRUE)
+drug <- read.csv(file.path(processedDataGithubPrefix,"raw_drug.csv"), header=TRUE)
 
 
 drug$unique.drugid <- matchToIDTable(drug$DRUG_NAME, drug.annotation.all, "PDTX.drugid", "unique.drugid")
@@ -254,7 +247,7 @@ rownames(drug) <- drug$unique.drugid
 rownames(cell) <- cell$unique.cellid
 
 
-curationCell <- read.csv(file.path(processedDataGithubPrefix,"data/cell_annotation_all.csv"), header=TRUE, row.names=1)
+curationCell <- read.csv(file.path(processedDataGithubPrefix,"cell_annotation_all.csv"), header=TRUE, row.names=1)
 curationDrug <- drug.annotation.all[,c("unique.drugid", "PDTX.drugid")]
 curationDrug <- curationDrug[complete.cases(curationDrug),]
 rownames(curationDrug) <- curationDrug$unique.drugid
@@ -268,7 +261,7 @@ raw <- readRDS(file.path(sensitivityDataPrefix,"raw.rds"))
 
 info$drugid <- matchToIDTable(info$drugid, drug.annotation.all, "PDTX.drugid", "unique.drugid")
 
-eSet <- readRDS(file.path(processedDataGithubPrefix,"data/results/normalize_RNA_expression/final_eset.Rda"))
+eSet <- readRDS(file.path(processedDataGithubPrefix,"final_eset.Rda"))
 Biobase::annotation(eSet) <- "rna"
 
 ## adding mapping to ENSG
