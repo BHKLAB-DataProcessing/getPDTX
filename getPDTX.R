@@ -9,17 +9,23 @@ library(CoreGx)
 library(SummarizedExperiment)
 
 ## temporarily adding for mapping, once we rerun the beadarray normalization file, we can move it earlier in pipeline
+if(!require("illuminaHumanv4.db", quietly=TRUE)){
+  BiocManager::install("illuminaHumanv4.db", ask=FALSE)
+}
 library(illuminaHumanv4.db)
-
 library(biocompute)
 
 options(stringsAsFactors=FALSE)
 print("Retrieving selection")
 args = commandArgs(trailingOnly=TRUE)
 
-processedDataGithubPrefix <- "~/Documents/pfs/downloadBreatPDTXData/"
-sensitivityDataPrefix <- "~/Documents/pfs/normalizeAndComputePDTXSens/"
-annotationRepoPrefix <- '~/Documents/pfs/annotation/'
+processedDataGithubPrefix <- "/pfs/downloadBreatPDTXData/"
+sensitivityDataPrefix <- "/pfs/normalizeAndComputePDTXSens/"
+annotationRepoPrefix <- '/pfs/downAnnotations/'
+
+# processedDataGithubPrefix <- "~/Documents/pfs/downloadBreatPDTXData/"
+# sensitivityDataPrefix <- "~/Documents/pfs/normalizeAndComputePDTXSens/"
+# annotationRepoPrefix <- '~/Documents/pfs/annotation/'
 
 # rnaseq_select <- args
 # print(rnaseq_select)
@@ -246,7 +252,7 @@ drug$unique.drugid <- matchToIDTable(drug$DRUG_NAME, drug.annotation.all, "PDTX.
 rownames(drug) <- drug$unique.drugid
 rownames(cell) <- cell$unique.cellid
 
-
+tmp <- read.csv(file.path(processedDataGithubPrefix,"cell_annotation_all.csv"), header=TRUE)
 curationCell <- read.csv(file.path(processedDataGithubPrefix,"cell_annotation_all.csv"), header=TRUE, row.names=1)
 curationDrug <- drug.annotation.all[,c("unique.drugid", "PDTX.drugid")]
 curationDrug <- curationDrug[complete.cases(curationDrug),]
